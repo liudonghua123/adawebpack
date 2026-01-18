@@ -80,7 +80,6 @@ jobs:
           ln -sv adawebpack_src/source/rtl/Makefile.target
           ln -sv bb-runtimes/gnat_rts_sources/include/rts-sources
           make wasm
-          make -C adawebpack_src build_examples
           set -x
           find -D exec bin -size +100k -exec chrpath -d {} \;
           mkdir -p ${PREFIX}/share/gprconfig
@@ -93,6 +92,12 @@ jobs:
           gprconfig --batch -o /tmp/llvm.cgpr --db `pwd`/adawebpack_src/packages/Fedora --target=llvm --config=ada,,
           gprbuild --target=llvm -P adawebpack_src/gnat/adawebpack.gpr -p --config=/tmp/llvm.cgpr
           gprinstall --target=llvm --prefix=${PREFIX} --project-subdir=${PREFIX}/lib/gnat -P adawebpack_src/gnat/adawebpack.gpr -p --config=/tmp/llvm.cgpr
+          make -C adawebpack_src build_examples
+          echo "=== Verifying WASM binaries ===" && \
+          find adawebpack_src/examples -name "*.wasm" -type f -exec echo "Found WASM: {}" \; && \
+          find adawebpack_src/examples -name "*.wasm" -type f -exec file {} \; && \
+          find adawebpack_src/examples -name "*.wasm" -type f -exec bash -c 'echo "Magic bytes of {}: $(xxd -l 8 "{}" | head -1)"' \; && \
+          echo "=== WASM files count: $(find adawebpack_src/examples -name "*.wasm" -type f | wc -l) ===" && \
           cd `dirname ${PREFIX}`
           tar czf ${PREFIX}.tar.gz `basename ${PREFIX}`
 
