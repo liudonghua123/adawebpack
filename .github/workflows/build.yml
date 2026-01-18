@@ -20,7 +20,7 @@ jobs:
         shell: bash
 
       - name: Get gnat-llvm
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: ${{ runner.os != 'Windows' }}
         with:
           repository: AdaCore/gnat-llvm
@@ -28,7 +28,7 @@ jobs:
           path: gnat-llvm
 
       - name: Get bb-runtimes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: ${{ runner.os != 'Windows' }}
         with:
           repository: Fabien-Chouteau/bb-runtimes
@@ -36,7 +36,7 @@ jobs:
           ref: 'gnat-fsf-14'
 
       - name: Get gcc
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         if: ${{ runner.os != 'Windows' }}
         with:
           repository: gcc-mirror/gcc
@@ -44,7 +44,7 @@ jobs:
           ref: 'releases/gcc-14.1.0'
 
       - name: Get AdaWebPack
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: gnat-llvm/llvm-interface/adawebpack_src
 
@@ -127,7 +127,7 @@ jobs:
           mv -v *.tar.zst ..
 
       - name: Keep archive in artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}
           path: "*.tar.*"
