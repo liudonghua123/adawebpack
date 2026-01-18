@@ -4,6 +4,7 @@ on:
       - master
       - topic/gha_up
   pull_request:
+  workflow_dispatch:
 name: Build binaries
 jobs:
   build:
